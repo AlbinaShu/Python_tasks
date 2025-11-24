@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 import csv
 
 # Импортируем модель и Base из models.py
-from models import Base, Student
+from models import Base, Student, User
 
 class StudentDataManager:
     def __init__(self, db_url):
@@ -16,7 +16,7 @@ class StudentDataManager:
         try:
             session.add(student)
             session.commit()
-            return student  # Возвращаем объект для возврата в API
+            return student
         except Exception as e:
             session.rollback()
             raise e
@@ -28,6 +28,14 @@ class StudentDataManager:
         try:
             students = session.query(Student).all()
             return students
+        finally:
+            session.close()
+
+    def get_student(self, student_id):
+        session = self.Session()
+        try:
+            student = session.query(Student).filter(Student.id == student_id).first()
+            return student
         finally:
             session.close()
 
@@ -114,5 +122,35 @@ class StudentDataManager:
         except Exception as e:
             session.rollback()
             raise e
+        finally:
+            session.close()
+
+    # Методы для работы с пользователями
+    def create_user(self, username, password):
+        session = self.Session()
+        try:
+            user = User(username=username, password=password)
+            session.add(user)
+            session.commit()
+            return user
+        except Exception as e:
+            session.rollback()
+            raise e
+        finally:
+            session.close()
+
+    def get_user_by_username(self, username):
+        session = self.Session()
+        try:
+            user = session.query(User).filter(User.username == username).first()
+            return user
+        finally:
+            session.close()
+
+    def get_user_by_id(self, user_id):
+        session = self.Session()
+        try:
+            user = session.query(User).filter(User.id == user_id).first()
+            return user
         finally:
             session.close()
