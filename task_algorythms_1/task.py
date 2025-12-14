@@ -249,7 +249,7 @@ def main():
     
     duplicates = find_duplicates(new_items, catalog)
     
-    with open('duplicates.json', 'w', encoding='utf-8') as f:
+    with open('task_algorythms_1/duplicates.json', 'w', encoding='utf-8') as f:
         json.dump(duplicates, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
