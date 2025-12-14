@@ -1,3 +1,5 @@
+# Вариант 3
+
 import json
 import re
 from difflib import SequenceMatcher
